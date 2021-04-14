@@ -10,26 +10,64 @@ exports.createPages = async({ graphql, actions, reporter }) => {
               node {
                 id
                 name
-                menu {
+                sidebar {
+                  id
                   menu
+                  pages {
+                    id
+                    title
+                  }
                 }
               }
             }
           }
 		}
 	`)
+
+	const sidebarresult = await graphql(`
+		{
+          allContentfulSidebar {
+            edges {
+              node {
+                id
+                menu
+                pages {
+                  id
+                  title
+                }
+              }
+            }
+          }
+		}
+	`)
+
 	if(hospitalresult.errors) {
 		reporter.panicOnBuild(`GraphQLのクエリでエラーが発生しました`)
 		return
 	}
 
-	const { edges } = hospitalresult.data.allContentfulHospitalName
+	if(sidebarresult.errors) {
+		reporter.panicOnBuild(`GraphQLのクエリでエラーが発生しました`)
+		return
+	}
 
-	edges.forEach(edge => {
+
+
+	hospitalresult.data.allContentfulHospitalName.edges.forEach(edge => {
 		createPage({
-			path: `/post/${edge.node.id}`,
-			component: path.resolve(`./src/templates/post.js`),
-			context: { post: edge.node }
+			path: `/hospital-post/${edge.node.id}`,
+			component: path.resolve(`./src/templates/hospital-post.js`),
+			context: { hospital: edge.node }
 		})
-	});
+	})
+
+	sidebarresult.data.allContentfulSidebar.edges.forEach(edge => {
+		createPage({
+			path: `/pages-post/${edge.node.id}`,
+			component: path.resolve(`./src/templates/pages-post.js`),
+			context: { pages: edge.node }
+		})
+	})
 }
+
+
