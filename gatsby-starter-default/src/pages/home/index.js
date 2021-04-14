@@ -15,9 +15,6 @@ const HomePage = () => {
           node {
             id
             name
-            menu {
-              menu
-            }
           }
         }
       }
@@ -30,8 +27,9 @@ const HomePage = () => {
       {/* 取得したデータを表示する処理を追加 */}
       {data.allContentfulHospitalName.edges.map(edge => (
         <div class="container" key={edge.node.id}>
-          <h2>病院名：　{edge.node.name}</h2>
+          <h2>{edge.node.name}</h2>
           <PostLink key={edge.node.id} post={edge.node} />
+          <p>####################</p>
         </div>
       ))}
       <Link to="/">Go to page</Link>
