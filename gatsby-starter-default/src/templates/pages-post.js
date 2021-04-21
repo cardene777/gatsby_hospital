@@ -14,7 +14,6 @@ export default function Post({ pageContext }) {
             <div className="post-header">
                 {pages.map((value, index)=>(
                     <div key={index}>
-                    {value.id}
                     {value.title}
                     </div>
                 ))}
