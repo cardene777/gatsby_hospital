@@ -7,7 +7,19 @@ import { useStaticQuery, graphql, Link } from "gatsby"
 
 export default function Post({ pageContext }) {
     const { name, sidebar } = pageContext.hospital;
-    const path = "/pages-post/"
+    const path = "/pages-post/";
+    const message = "データがありません。";
+//    const sidemenu = (
+//        sidebar.map((value, index)=>(
+//            <li key={index} class="my-2">
+//
+//                <Link to={path + value.id}>
+//                    {value.menu}
+//                </Link>
+//            </li>
+//        ))
+//    )
+
 
     return (
         <Layout>
@@ -15,20 +27,12 @@ export default function Post({ pageContext }) {
           <h2 class="h6 pt-4 pb-3 mb-4 border-bottom">サイドメニュー</h2>
           <nav class="small" id="toc">
             <ul class="list-unstyled">
-            {sidebar.map((value, index)=>(
-                <li key={index} class="my-2">
-
-                    <Link to={path + value.id}>
-                        {value.menu}
-                    </Link>
-                </li>
-            ))}
+                {sidebar !== null ? sidebar.map((value, index)=>(<li key={index} class="my-2"><Link to={path + value.id}>{value.menu}</Link></li>)) : message }
             </ul>
           </nav>
         </aside>
             <div className="post-header">
                 <h1>{name}</h1>
-
             </div>
         </Layout>
     )
